@@ -2,5 +2,83 @@
  * Your site-wide CSS styles all go in this file
 
  // INSERT YOUR CODE BELOW THIS LINE
-
  */
+
+ * {
+    margin: 0px; /* resets page margin */
+    padding: 0px; /* resets page padding */
+    font-size: 14px; /* default sized font 14px */
+    font-family: Arial; /* default font is Arial */
+ }
+
+ header {
+    background-color: #366815; /* Name Convention: bright-colour (very dark green) */
+
+    width: 100%; /* spans entire width of screen */
+    padding: 10px; /* Name Convention: big-spacing (10px) MIGHT BE FUCKED UP**************** */
+ }
+
+#header_title {
+    color: white; /* white text */
+    padding-left: 40px; /* padded on the left */
+    font-size: 24px; /* font sized 24px MIGHT BE FUCKED UP**************** */ 
+    float: left; /* located at far left */
+    vertical-align: top; /* vertically aligned with nav MIGHT BE FUCKED UP**************** */
+}
+
+header nav {
+    float: right; /* located at far right */
+    vertical-align: top; /* vertically aligned with header_title MIGHT BE FUCKED UP**************** */
+}
+
+nav a {
+    color: white; /* white text */
+    border-color: white; /* white border */
+    border-width: 1px; /* 1px border */
+    border-style: solid; /* solid border */
+
+    margin: 10px; /* Name Convention: big-spacing (10px), for spacing between each button */
+    padding: 5px; /* Name Convention: small-spacing */
+    
+}
+
+nav a:hover {
+    background-color: white; /* white background */
+    opacity: 30%; /* 30% opacity */
+}
+
+.current_menu {
+    color: #366815; /* Name Convention: bright-colour (very dark green) */
+    background-color: white; /* white background */
+}
+
+#content_container {
+    width: 800px; /* width of 80px */
+    border-color: #CDCDCD; /* Name Convention: light-neutral-colour (light grey) */
+    border-width: 2px; /* 2px border */
+    border-style: solid; /* solid border */
+    padding: 10px; /* Name Convention: big-spacing (10px) */
+
+    display: flex;
+    justify-content: center;
+
+    margin-top: 10px; /* Name Convention: big-spacing (10px), for gap between it and header */
+}
+
+h1 {
+    color: #343434; /* Name Convention: dark-neutral-colour (very dark grey) */
+    background-color: #CDCDCD; /* Name Convention: light-neutral-colour (light grey) */  
+    padding: 10px; /* Name Convention: big-spacing (10px) */
+    margin-bottom: 10px; /* Name Convention: big-spacing (10px) */
+    font-size: 32px; /* font sized 32px*/
+}
+
+.error_box {
+    padding: 10px; /* Name Convention: big-spacing (10px) */
+    color: white; /* white text */
+    background-color: #990000; /* crimson red background */
+
+    position: fixed; /* fixed to page */
+    bottom: 0%; /* located at bottom */
+    width: 100%; /* spanning width of page */
+}
