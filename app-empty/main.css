@@ -39,7 +39,6 @@ nav a {
 
     margin: 10px; /* Name Convention: big-spacing (10px), for spacing between each button */
     padding: 5px; /* Name Convention: small-spacing */
-    
 }
 
 nav a:hover {
