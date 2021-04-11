@@ -13,6 +13,9 @@ class Reports {
 		this.company_id = company_id;
 
 		// INSERT YOUR CODE BELOW THIS LINE
+
+		loadProjects();
+
 	}
 
 	/////////////////////////////////////////////
@@ -26,18 +29,25 @@ class Reports {
 	{
 		console.log('----- loadProjects -----');
 		// INSERT YOUR CODE BELOW THIS LINE
+
+		// api call (HTTP method, URL path, parameters obj, success_method)
+		makeRequest("GET", `/companies/${this.company_id}/projects`, {}, this.fillProjectsWithResponse()); 
 	}
 
 	fillProjectsWithResponse(xhr_response)
 	{
 		console.log('----- fillProjectsWithResponse -----', xhr_response);
 		// INSERT YOUR CODE BELOW THIS LINE
+		
 	}
 
 	handleProjectChange(event)
 	{
 		console.log('----- handleProjectChange -----', event);
 		// INSERT YOUR CODE BELOW THIS LINE
+
+
+		loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
 
 
@@ -51,6 +61,10 @@ class Reports {
 	{
 		console.log('----- loadUsers -----');
 		// INSERT YOUR CODE BELOW THIS LINE
+
+
+		// api call (HTTP method, URL path, parameters obj, success_method)
+		makeRequest("GET", "/reports", {}, this.fillUsersWithResponse()); 
 	}
 
 	fillUsersWithResponse(xhr_response)
@@ -63,6 +77,9 @@ class Reports {
 	{
 		console.log('----- handleUserChange -----', event);
 		// INSERT YOUR CODE BELOW THIS LINE
+
+
+		loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
 
 	/////////////////////////////////////////////
@@ -75,12 +92,22 @@ class Reports {
 	{
 		console.log('----- loadTimeEntries -----');
 		// INSERT YOUR CODE BELOW THIS LINE
+		
+		if(this.users !== null && this.projects !== null) { // api call made only when these values are filled
+			// api call (HTTP method, URL path, parameters obj, success_method)
+			makeRequest("GET", "/reports", {}, this.fillTimeEntriesWithResponse()); 
+		}
 	}
 
 	fillTimeEntriesWithResponse(xhr_response)
 	{
 		console.log('----- fillTimeEntriesWithResponse -----', xhr_response);
 		// INSERT YOUR CODE BELOW THIS LINE
+		let tbody = document.getElementsByTagName("tbody");
+
+		// for(let key in xhr_response) {
+		// 	tbody.
+		// }
 	}
 
 	dateString(date)
