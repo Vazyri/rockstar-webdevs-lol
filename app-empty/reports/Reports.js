@@ -31,15 +31,17 @@ class Reports {
 		// INSERT YOUR CODE BELOW THIS LINE
 
 		// api call (HTTP method, URL path, parameters obj, success_method)
-		api.makeRequest("GET", `/companies/${company_id}/projects`, {}, this.fillProjectsWithResponse); 
-		
-		this.loadTimeEntries(); // required for B-Reports, leave at END of callback
+		this.projects = api.makeRequest("GET", `/companies/${company_id}/projects`, {}, this.fillProjectsWithResponse); 
 	}
 
 	fillProjectsWithResponse(xhr_response)
 	{
 		console.log('----- fillProjectsWithResponse -----', xhr_response);
 		// INSERT YOUR CODE BELOW THIS LINE
+		
+		Reports.projects = xhr_response;
+
+		Reports.prototype.loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
 
 	handleProjectChange(event)
@@ -62,14 +64,16 @@ class Reports {
 
 		// api call (HTTP method, URL path, parameters obj, success_method)
 		api.makeRequest("GET", `/companies/${company_id}/users`, {}, this.fillUsersWithResponse);
-		
-		this.loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
 
 	fillUsersWithResponse(xhr_response)
 	{
 		console.log('----- fillUsersWithResponse -----', xhr_response);
 		// INSERT YOUR CODE BELOW THIS LINE
+
+		Reports.users = xhr_response;
+
+		Reports.prototype.loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
 
 	handleUserChange(event)
@@ -89,30 +93,10 @@ class Reports {
 		console.log('----- loadTimeEntries -----');
 		// INSERT YOUR CODE BELOW THIS LINE
 		
-		if(this.users !== null && this.projects !== null) { // api call made only when these values are filled
+		if(Reports.users !== undefined && Reports.projects !== undefined) { // api call made only when these values are filled
 			// api call (HTTP method, URL path, parameters obj, success_method)
-			console.log("BOOM")
-			api.makeRequest("GET", `/companies/${company_id}/entries`, {}, this.fillTimeEntriesWithResponse); 
-		} else {
-			console.log("NOO")
+			api.makeRequest("GET", `/companies/${company_id}/entries`, {}, this.fillTimeEntriesWithResponse);
 		}
-	}
-
-	static createTableElements() {
-		let taskCol = document.createElement("td"); // task column
-		let projCol = document.createElement("td"); // project column
-		let userCol = document.createElement("td"); // user column
-		let timeCol = document.createElement("td"); // time column
-		let dateCol = document.createElement("td"); // date column
-		
-		let row = document.createElement("tr"); // separate row for each entry
-		row.appendChild(taskCol);
-		row.appendChild(projCol);
-		row.appendChild(userCol);
-		row.appendChild(timeCol);
-		row.appendChild(dateCol);
-		
-		return row;
 	}
 
 	fillTimeEntriesWithResponse(xhr_response)
@@ -139,6 +123,23 @@ class Reports {
 		tableElems[4].textContent = `${end.getMonth} ${end.getDate}, ${end.getFullYear} ${end.getHours}:${end.getMinutes}`; // contains date
 		
 		tbody[0].append(...tableElems);
+	}
+
+	static createTableElements() {
+		let taskCol = document.createElement("td"); // task column
+		let projCol = document.createElement("td"); // project column
+		let userCol = document.createElement("td"); // user column
+		let timeCol = document.createElement("td"); // time column
+		let dateCol = document.createElement("td"); // date column
+		
+		let row = document.createElement("tr"); // separate row for each entry
+		row.appendChild(taskCol);
+		row.appendChild(projCol);
+		row.appendChild(userCol);
+		row.appendChild(timeCol);
+		row.appendChild(dateCol);
+		
+		return row;
 	}
 
 	dateString(date)
