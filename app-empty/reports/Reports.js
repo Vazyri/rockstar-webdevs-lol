@@ -14,7 +14,8 @@ class Reports {
 
 		// INSERT YOUR CODE BELOW THIS LINE
 
-		loadProjects();
+		this.loadProjects();
+		this.loadUsers();
 	}
 
 	/////////////////////////////////////////////
@@ -30,9 +31,9 @@ class Reports {
 		// INSERT YOUR CODE BELOW THIS LINE
 
 		// api call (HTTP method, URL path, parameters obj, success_method)
-		api.makeRequest("GET", `/companies/${company_id}/projects`, {}, this.fillProjectsWithResponse()); 
-	
-		loadTimeEntries(); // required for B-Reports, leave at END of callback
+		api.makeRequest("GET", `/companies/${company_id}/projects`, {}, this.fillProjectsWithResponse); 
+		
+		this.loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
 
 	fillProjectsWithResponse(xhr_response)
@@ -59,11 +60,10 @@ class Reports {
 		console.log('----- loadUsers -----');
 		// INSERT YOUR CODE BELOW THIS LINE
 
-
 		// api call (HTTP method, URL path, parameters obj, success_method)
-		api.makeRequest("GET", "/companies/${company_id}/users", {}, this.fillUsersWithResponse());
+		api.makeRequest("GET", `/companies/${company_id}/users`, {}, this.fillUsersWithResponse);
 		
-		loadTimeEntries(); // required for B-Reports, leave at END of callback
+		this.loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
 
 	fillUsersWithResponse(xhr_response)
@@ -91,11 +91,14 @@ class Reports {
 		
 		if(this.users !== null && this.projects !== null) { // api call made only when these values are filled
 			// api call (HTTP method, URL path, parameters obj, success_method)
-			makeRequest("GET", "/companies/${company_id}/entries", {}, this.fillTimeEntriesWithResponse()); 
+			console.log("BOOM")
+			api.makeRequest("GET", `/companies/${company_id}/entries`, {}, this.fillTimeEntriesWithResponse); 
+		} else {
+			console.log("NOO")
 		}
 	}
 
-	createTableElements() {
+	static createTableElements() {
 		let taskCol = document.createElement("td"); // task column
 		let projCol = document.createElement("td"); // project column
 		let userCol = document.createElement("td"); // user column
@@ -116,26 +119,26 @@ class Reports {
 	{
 		console.log('----- fillTimeEntriesWithResponse -----', xhr_response);
 		// INSERT YOUR CODE BELOW THIS LINE
-
+		
 		let tbody = document.getElementsByTagName("tbody"); // destination
 
-		let row = this.createTableElements();
+		let row = Reports.createTableElements();
 		let tableElems = row.children; // [taskCol, projCol, userCol, timeCol, dateCol]
-		tableElems[0].textContent(`${xhr.response.description}`); // contains entry description
-
-		// tableElems[1].textContent(`${}`); // contains project title
-
-		tableElems[2].textContent(`${xhr.response.user_id}`); // contains ID of user who created entry
-
-		let start = new Date(xhr.response.start_time);
-		let end = new Date(xhr.response.end_time);
-
-		tableElems[3].textContent(`${convertSecondsToHoursMinutesSeconds(end.getTime() - start.getTime())}`); // contains how long timer ran in form
-	
-		let endDate = xhr.response.end_time.split();
-		tableElems[4].textContent(`${endDate[0]}`); // contains date
 		
-		tbody.appendChild(row);
+		tableElems[0].textContent = `${xhr_response.description}`; // contains entry description
+
+		// tableElems[1].textContent = `${}`; // contains project title
+
+		tableElems[2].textContent = `${xhr_response.user_id}`; // contains ID of user who created entry
+
+		let start = new Date(xhr_response.start_time);
+		let end = new Date(xhr_response.end_time);
+
+		tableElems[3].textContent = `${convertSecondsToHoursMinutesSeconds(end.getTime() - start.getTime())}`; // contains how long timer ran in form
+	
+		tableElems[4].textContent = `${end.getMonth} ${end.getDate}, ${end.getFullYear} ${end.getHours}:${end.getMinutes}`; // contains date
+		
+		tbody[0].append(...tableElems);
 	}
 
 	dateString(date)
