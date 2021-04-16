@@ -106,23 +106,23 @@ class Reports {
 		
 		let tbody = document.getElementsByTagName("tbody"); // destination
 
-		let row = Reports.createTableElements();
-		let tableElems = row.children; // [taskCol, projCol, userCol, timeCol, dateCol]
-		
-		tableElems[0].textContent = `${xhr_response.description}`; // contains entry description
+		Object.keys(xhr_response).forEach(key => {
+			let row = Reports.createTableElements();
+			let tableElems = row.children; // [taskCol, projCol, userCol, timeCol, dateCol]
 
-		// tableElems[1].textContent = `${}`; // contains project title
+			tableElems[0].textContent = `${xhr_response[key].description}`; // contains entry description
 
-		tableElems[2].textContent = `${xhr_response.user_id}`; // contains ID of user who created entry
+			tableElems[1].textContent = `${xhr_response[key].entry_id}`; // contains project title
 
-		let start = new Date(xhr_response.start_time);
-		let end = new Date(xhr_response.end_time);
-
-		tableElems[3].textContent = `${convertSecondsToHoursMinutesSeconds(end.getTime() - start.getTime())}`; // contains how long timer ran in form
-	
-		tableElems[4].textContent = `${end.getMonth} ${end.getDate}, ${end.getFullYear} ${end.getHours}:${end.getMinutes}`; // contains date
-		
-		tbody[0].append(...tableElems);
+			tableElems[2].textContent = `${xhr_response[key].user_id}`; // contains ID of user who created entry
+			
+			let start = new Date(xhr_response[key].start_time);
+			let end = new Date(xhr_response[key].end_time);
+			tableElems[3].textContent = `${convertSecondsToHoursMinutesSeconds(end.getTime() - start.getTime())}`; // contains how long timer ran in form
+			tableElems[4].textContent = `${end.getMonth()} ${end.getDate()}, ${end.getFullYear()} ${end.getHours()}:${end.getMinutes()}`; // contains date
+			
+			tbody[0].append(row);
+		});
 	}
 
 	static createTableElements() {
