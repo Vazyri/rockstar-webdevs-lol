@@ -1,0 +1,12 @@
+#reports_filter_form {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+label, select {
+    padding: 5px; /* Name Convention: small-spacing (5px) */
+    margin: 10px; /* Name Convention: big-spacing (10px) */
+    background-color: #CDCDCD; /* Name Convention: light-neutral-colour (light grey) */;
+    color: #343434; /* Name Convention: dark-neutral-colour (very dark grey) */
+}
+

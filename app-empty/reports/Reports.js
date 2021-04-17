@@ -41,6 +41,7 @@ class Reports {
 		
 		Reports.projects = xhr_response;
 
+
 		Reports.prototype.loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
 
@@ -73,6 +74,7 @@ class Reports {
 
 		Reports.users = xhr_response;
 
+		
 		Reports.prototype.loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
 
@@ -106,18 +108,30 @@ class Reports {
 		
 		let tbody = document.getElementsByTagName("tbody"); // destination
 
-		Object.keys(xhr_response).forEach(key => {
+		let entries = Object.keys(xhr_response).map(key => {
+			return xhr_response[key];
+		}); // convert obj of objs into array of objs
+
+		// From: https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/
+		entries.sort((a, b) => { // orders array of entry objs by most recently started
+			let dateA = new Date(a.start_time);
+			let dateB = new Date(b.start_time);
+			
+			return dateA - dateB;
+		});
+
+		Object.keys(entries).forEach(key => {
 			let row = Reports.createTableElements();
 			let tableElems = row.children; // [taskCol, projCol, userCol, timeCol, dateCol]
 
-			tableElems[0].textContent = `${xhr_response[key].description}`; // contains entry description
+			tableElems[0].textContent = `${entries[key].description}`; // contains entry description
 
-			tableElems[1].textContent = `${xhr_response[key].entry_id}`; // contains project title
+			tableElems[1].textContent = `${entries[key].entry_id}`; // contains project title
 
-			tableElems[2].textContent = `${xhr_response[key].user_id}`; // contains ID of user who created entry
+			tableElems[2].textContent = `${entries[key].user_id}`; // contains ID of user who created entry
 			
-			let start = new Date(xhr_response[key].start_time);
-			let end = new Date(xhr_response[key].end_time);
+			let start = new Date(entries[key].start_time);
+			let end = new Date(entries[key].end_time);
 			tableElems[3].textContent = `${convertSecondsToHoursMinutesSeconds(end.getTime() - start.getTime())}`; // contains how long timer ran in form
 			tableElems[4].textContent = `${end.getMonth()} ${end.getDate()}, ${end.getFullYear()} ${end.getHours()}:${end.getMinutes()}`; // contains date
 			

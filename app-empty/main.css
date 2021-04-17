@@ -38,7 +38,7 @@ nav a {
     border-style: solid; /* solid border */
 
     margin: 10px; /* Name Convention: big-spacing (10px), for spacing between each button */
-    padding: 5px; /* Name Convention: small-spacing */
+    padding: 5px; /* Name Convention: small-spacing (5px) */
 }
 
 nav a:hover {
@@ -60,8 +60,6 @@ nav a:hover {
 
     display: flex;
     justify-content: center;
-
-    margin-top: 10px; /* Name Convention: big-spacing (10px), for gap between it and header */
 }
 
 h1 {
