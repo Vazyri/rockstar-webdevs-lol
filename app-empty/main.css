@@ -15,20 +15,17 @@
     background-color: #366815; /* Name Convention: bright-colour (very dark green) */
 
     width: 100%; /* spans entire width of screen */
-    padding: 10px; /* Name Convention: big-spacing (10px) MIGHT BE FUCKED UP**************** */
+    padding: 10px; /* Name Convention: big-spacing (10px) */
+
+    display: flex;
+    justify-content: space-between;
+    vertical-align: middle;
  }
 
 #header_title {
     color: white; /* white text */
     padding-left: 40px; /* padded on the left */
-    font-size: 24px; /* font sized 24px MIGHT BE FUCKED UP**************** */ 
-    float: left; /* located at far left */
-    vertical-align: top; /* vertically aligned with nav MIGHT BE FUCKED UP**************** */
-}
-
-header nav {
-    float: right; /* located at far right */
-    vertical-align: top; /* vertically aligned with header_title MIGHT BE FUCKED UP**************** */
+    font-size: 24px; /* font sized 24px */ 
 }
 
 nav a {
