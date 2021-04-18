@@ -13,13 +13,19 @@
 
  header {
     background-color: #366815; /* Name Convention: bright-colour (very dark green) */
-
+    
+    /* From: https://stackoverflow.com/questions/22158031/css-inserting-a-background-image-into-a-header */
+    background-image: url("timer.svg"); /* background image */
+    background-position: 10px; /* Name Convention: big-spacing (10px) */
+    background-repeat: no-repeat; /* image occurs only once */
+    background-size: 70% 70%; /* image 70% of header */
+    
     width: 100%; /* spans entire width of screen */
     padding: 10px; /* Name Convention: big-spacing (10px) */
 
-    display: flex;
-    justify-content: space-between;
-    vertical-align: middle;
+    display: flex; /* enable flex */
+    justify-content: space-between; /* title to left, nav to right */
+    vertical-align: middle; /* title and nav aligned */
  }
 
 #header_title {
@@ -34,8 +40,8 @@ nav a {
     border-width: 1px; /* 1px border */
     border-style: solid; /* solid border */
 
-    margin: 10px; /* Name Convention: big-spacing (10px), for spacing between each button */
     padding: 5px; /* Name Convention: small-spacing (5px) */
+    gap: 10px; /* Name Convention: big-spacing (10px), for spacing between each button */ 
 }
 
 nav a:hover {
