@@ -40,7 +40,13 @@ class Reports {
 		// INSERT YOUR CODE BELOW THIS LINE
 		
 		Reports.projects = xhr_response;
-
+		let selectProj = document.getElementById("project_id");
+		for(let key in xhr_response) {
+			let option = document.createElement("option");
+			option.value = `${xhr_response[key].project_id}`;
+			option.textContent = `${xhr_response[key].title}`;
+			selectProj.appendChild(option);
+		}
 
 		Reports.prototype.loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
@@ -73,7 +79,13 @@ class Reports {
 		// INSERT YOUR CODE BELOW THIS LINE
 
 		Reports.users = xhr_response;
-
+		let selectUsers = document.getElementById("user_id");
+		for(let key in xhr_response) {
+			let option = document.createElement("option");
+			option.value = `${xhr_response[key].user_id}`;
+			option.textContent = `${xhr_response[key].first_name} ${xhr_response[key].last_name}`;
+			selectUsers.appendChild(option);
+		}
 		
 		Reports.prototype.loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
