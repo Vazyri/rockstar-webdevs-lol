@@ -34,6 +34,10 @@ class Reports {
 		this.projects = api.makeRequest("GET", `/companies/${company_id}/projects`, {}, this.fillProjectsWithResponse); 
 	}
 
+	/**
+	 * 
+	 * @param {*} xhr_response 
+	 */
 	fillProjectsWithResponse(xhr_response)
 	{
 		console.log('----- fillProjectsWithResponse -----', xhr_response);
@@ -55,6 +59,8 @@ class Reports {
 	{
 		console.log('----- handleProjectChange -----', event);
 		// INSERT YOUR CODE BELOW THIS LINE
+
+
 	}
 
 
@@ -64,6 +70,9 @@ class Reports {
 	//
 	/////////////////////////////////////////////
 
+	/**
+	 * 
+	 */
 	loadUsers()
 	{
 		console.log('----- loadUsers -----');
@@ -73,6 +82,10 @@ class Reports {
 		api.makeRequest("GET", `/companies/${company_id}/users`, {}, this.fillUsersWithResponse);
 	}
 
+	/**
+	 * 
+	 * @param {*} xhr_response 
+	 */
 	fillUsersWithResponse(xhr_response)
 	{
 		console.log('----- fillUsersWithResponse -----', xhr_response);
@@ -86,7 +99,7 @@ class Reports {
 			option.textContent = `${xhr_response[key].first_name} ${xhr_response[key].last_name}`;
 			selectUsers.appendChild(option);
 		}
-		
+			
 		Reports.prototype.loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
 
@@ -102,6 +115,9 @@ class Reports {
 	//
 	/////////////////////////////////////////////
 
+	/**
+	 * 
+	 */
 	loadTimeEntries()
 	{
 		console.log('----- loadTimeEntries -----');
@@ -113,6 +129,10 @@ class Reports {
 		}
 	}
 
+	/**
+	 * 
+	 * @param {*} xhr_response 
+	 */
 	fillTimeEntriesWithResponse(xhr_response)
 	{
 		console.log('----- fillTimeEntriesWithResponse -----', xhr_response);
@@ -138,9 +158,9 @@ class Reports {
 
 			tableElems[0].textContent = `${entries[key].description}`; // contains entry description
 
-			tableElems[1].textContent = `${entries[key].entry_id}`; // contains project title
+			tableElems[1].textContent = `${Reports.projects[`${entries[key].project_id}`].title}`; // contains project title
 
-			tableElems[2].textContent = `${entries[key].user_id}`; // contains ID of user who created entry
+			tableElems[2].textContent = `${Reports.users[`${entries[key].user_id}`].first_name}`; // contains ID of user who created entry
 			
 			let start = new Date(entries[key].start_time);
 			let end = new Date(entries[key].end_time);
