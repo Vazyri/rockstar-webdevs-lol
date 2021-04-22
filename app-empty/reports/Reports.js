@@ -16,6 +16,11 @@ class Reports {
 
 		this.loadProjects();
 		this.loadUsers();
+
+		let selectProj = document.getElementById("project_id");
+		selectProj.addEventListener("change", this.handleProjectChange);
+		let selectUser = document.getElementById("user_id");
+		selectUser.addEventListener("change", this.handleUserChange);
 	}
 
 	/////////////////////////////////////////////
@@ -60,7 +65,7 @@ class Reports {
 		console.log('----- handleProjectChange -----', event);
 		// INSERT YOUR CODE BELOW THIS LINE
 
-
+		
 	}
 
 
@@ -164,8 +169,13 @@ class Reports {
 			
 			let start = new Date(entries[key].start_time);
 			let end = new Date(entries[key].end_time);
-			tableElems[3].textContent = `${convertSecondsToHoursMinutesSeconds(end.getTime() - start.getTime())}`; // contains how long timer ran in form
-			tableElems[4].textContent = `${end.getMonth()} ${end.getDate()}, ${end.getFullYear()} ${end.getHours()}:${end.getMinutes()}`; // contains date
+
+			let runningHrs = (end.getHours() - start.getHours()) * 3600;
+			let runningMins = (end.getMinutes( - start.getMinutes()) * 60);
+			let runningSecs = end.getSeconds() - start.getSeconds();
+			
+			tableElems[3].textContent = `${convertSecondsToHoursMinutesSeconds(runningHrs + runningMins + runningSecs)}`; // contains how long timer ran in form
+			tableElems[4].textContent = `${Reports.prototype.dateString(entries[key].start_time)} ${start.getHours()}:${start.getMinutes()}`; // contains start date in abbreviated form
 			
 			tbody[0].append(row);
 		});
