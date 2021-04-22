@@ -33,3 +33,7 @@ td {
     padding: 5px;  /* Name Convention: small-spacing (5px) */ 
 }
 
+.filtered_out {
+    visibility: collapse;
+}
+

@@ -64,8 +64,24 @@ class Reports {
 	{
 		console.log('----- handleProjectChange -----', event);
 		// INSERT YOUR CODE BELOW THIS LINE
-
 		
+		// returns HTML Collection of td elements so convert into array
+		let projEntries = [...document.getElementsByClassName("filtered_in"), ...document.getElementsByClassName("filtered_out")]; // append all tr's that may have previously been hidden
+		projEntries.forEach(key => {
+			
+			key.classList = []; // reset
+			let keyChildren = [...key.children]; // get all td's of the tr as array
+			console.log(keyChildren)
+			// td at index 1 has project_id as its id
+			if(event.target.value === "") {
+				key.classList.add("filtered_in")
+			}
+			else if(keyChildren[1].id !== event.target.value) { // td's project_id not equal to select-option's project_id 
+				key.classList.add("filtered_out")
+			} else {
+				key.classList.add("filtered_in")
+			}
+		});
 	}
 
 
@@ -112,6 +128,24 @@ class Reports {
 	{
 		console.log('----- handleUserChange -----', event);
 		// INSERT YOUR CODE BELOW THIS LINE
+
+		// returns HTML Collection of td elements so convert into array
+		let userEntries = [...document.getElementsByClassName("filtered_in"), ...document.getElementsByClassName("filtered_out")]; // append all tr's that may have previously been hidden
+		userEntries.forEach(key => {
+			console.log(key)
+			key.classList = []; // reset
+			let keyChildren = [...key.children]; // get all td's of the tr as array
+
+			// td at index 1 has project_id as its id
+			if(event.target.value === "") {
+				key.classList.add("filtered_in")
+			}
+			else if(keyChildren[2].id !== event.target.value) { // td's project_id not equal to select-option's project_id 
+				key.classList.add("filtered_out")
+			} else {
+				key.classList.add("filtered_in")
+			}
+		});
 	}
 
 	/////////////////////////////////////////////
@@ -154,7 +188,7 @@ class Reports {
 			let dateA = new Date(a.start_time);
 			let dateB = new Date(b.start_time);
 			
-			return dateA - dateB;
+			return dateA - dateB; // <0 = more recent, 0 = started same time, >0 = more
 		});
 
 		Object.keys(entries).forEach(key => {
@@ -164,9 +198,11 @@ class Reports {
 			tableElems[0].textContent = `${entries[key].description}`; // contains entry description
 
 			tableElems[1].textContent = `${Reports.projects[`${entries[key].project_id}`].title}`; // contains project title
+			tableElems[1].id = `${entries[key].project_id}`;
 
 			tableElems[2].textContent = `${Reports.users[`${entries[key].user_id}`].first_name}`; // contains ID of user who created entry
-			
+			tableElems[2].id = `${entries[key].user_id}`;
+
 			let start = new Date(entries[key].start_time);
 			let end = new Date(entries[key].end_time);
 
@@ -181,6 +217,10 @@ class Reports {
 		});
 	}
 
+	/**
+	 * 
+	 * @returns 
+	 */
 	static createTableElements() {
 		let taskCol = document.createElement("td"); // task column
 		let projCol = document.createElement("td"); // project column
@@ -189,7 +229,8 @@ class Reports {
 		let dateCol = document.createElement("td"); // date column
 		
 		let row = document.createElement("tr"); // separate row for each entry
-		row.appendChild(taskCol);
+		row.classList.add("filtered_in"); // class for filtering out content 
+		row.appendChild(taskCol); // append each entry to row
 		row.appendChild(projCol);
 		row.appendChild(userCol);
 		row.appendChild(timeCol);
