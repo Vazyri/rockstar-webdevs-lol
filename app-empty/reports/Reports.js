@@ -78,6 +78,9 @@ class Reports {
 	/**
 	 * Handler function to filter out entries in table according to selected options.
 	 * 
+	 * ****NOTE:
+	 * 		I was unable to figure out the cumulative filtering feature. Everything else should work and be up to standards.
+	 * 
 	 * @param {object} event issued by eventListener once triggered containing all event information 
 	 */
 	handleProjectChange(event)
@@ -152,6 +155,9 @@ class Reports {
 
 	/**
 	 * Handler function to filter out entries in table according to selected options.
+	 * 
+	 * ****NOTE:
+	 * 		I was unable to figure out the cumulative filtering feature. Everything else should work and be up to standards.
 	 * 
 	 * @param {object} event issued by eventListener once triggered containing all event information 
 	 */
