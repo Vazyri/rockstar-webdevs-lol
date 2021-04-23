@@ -4,7 +4,7 @@ Final project files for the final project of class ACS2909.
 <h2>Getting started</h2>
 <ul>
   <li>Download all files here.</li>
-  <li>Will require local copy of my_api_key.js and the config.js as they were ignored to maintain OPSEC since they contained api key information.</li>
+  <li>Will require local copy of my_api_key.js and the config.js as they were ignored to maintain OPSEC (contained api key information).</li>
 </ul>
 
 
