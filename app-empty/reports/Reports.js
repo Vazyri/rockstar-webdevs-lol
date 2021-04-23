@@ -68,10 +68,8 @@ class Reports {
 		// returns HTML Collection of td elements so convert into array
 		let projEntries = [...document.getElementsByClassName("filtered_in"), ...document.getElementsByClassName("filtered_out")]; // append all tr's that may have previously been hidden
 		projEntries.forEach(key => {
-			
 			key.classList = []; // reset
 			let keyChildren = [...key.children]; // get all td's of the tr as array
-			console.log(keyChildren)
 			// td at index 1 has project_id as its id
 			if(event.target.value === "") {
 				key.classList.add("filtered_in")
@@ -132,7 +130,6 @@ class Reports {
 		// returns HTML Collection of td elements so convert into array
 		let userEntries = [...document.getElementsByClassName("filtered_in"), ...document.getElementsByClassName("filtered_out")]; // append all tr's that may have previously been hidden
 		userEntries.forEach(key => {
-			console.log(key)
 			key.classList = []; // reset
 			let keyChildren = [...key.children]; // get all td's of the tr as array
 
@@ -205,12 +202,14 @@ class Reports {
 
 			let start = new Date(entries[key].start_time);
 			let end = new Date(entries[key].end_time);
-
-			let runningHrs = (end.getHours() - start.getHours()) * 3600;
-			let runningMins = (end.getMinutes( - start.getMinutes()) * 60);
-			let runningSecs = end.getSeconds() - start.getSeconds();
 			
-			tableElems[3].textContent = `${convertSecondsToHoursMinutesSeconds(runningHrs + runningMins + runningSecs)}`; // contains how long timer ran in form
+			if(start.getHours() > end.getHours()) {
+				end.setHours((end.getHours() + 24), end.getMinutes(), end.getSeconds())
+			}
+			let endSeconds = (end.getHours() * 3600) + (end.getMinutes() * 60) + end.getSeconds();
+			let startSeconds = (start.getHours() * 3600) + (start.getMinutes() * 60) + start.getSeconds();
+			
+			tableElems[3].textContent = `${convertSecondsToHoursMinutesSeconds(endSeconds - startSeconds)}`; // contains how long timer ran in form
 			tableElems[4].textContent = `${Reports.prototype.dateString(entries[key].start_time)} ${start.getHours()}:${start.getMinutes()}`; // contains start date in abbreviated form
 			
 			tbody[0].append(row);
