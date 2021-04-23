@@ -16,6 +16,11 @@ class Reports {
 
 		this.loadProjects();
 		this.loadUsers();
+
+		let selectProj = document.getElementById("project_id");
+		selectProj.addEventListener("change", this.handleProjectChange);
+		let selectUser = document.getElementById("user_id");
+		selectUser.addEventListener("change", this.handleUserChange);
 	}
 
 	/////////////////////////////////////////////
@@ -34,6 +39,10 @@ class Reports {
 		this.projects = api.makeRequest("GET", `/companies/${company_id}/projects`, {}, this.fillProjectsWithResponse); 
 	}
 
+	/**
+	 * 
+	 * @param {*} xhr_response 
+	 */
 	fillProjectsWithResponse(xhr_response)
 	{
 		console.log('----- fillProjectsWithResponse -----', xhr_response);
@@ -55,6 +64,22 @@ class Reports {
 	{
 		console.log('----- handleProjectChange -----', event);
 		// INSERT YOUR CODE BELOW THIS LINE
+		
+		// returns HTML Collection of td elements so convert into array
+		let projEntries = [...document.getElementsByClassName("filtered_in"), ...document.getElementsByClassName("filtered_out")]; // append all tr's that may have previously been hidden
+		projEntries.forEach(key => {
+			key.classList = []; // reset
+			let keyChildren = [...key.children]; // get all td's of the tr as array
+			// td at index 1 has project_id as its id
+			if(event.target.value === "") {
+				key.classList.add("filtered_in")
+			}
+			else if(keyChildren[1].id !== event.target.value) { // td's project_id not equal to select-option's project_id 
+				key.classList.add("filtered_out")
+			} else {
+				key.classList.add("filtered_in")
+			}
+		});
 	}
 
 
@@ -64,6 +89,9 @@ class Reports {
 	//
 	/////////////////////////////////////////////
 
+	/**
+	 * 
+	 */
 	loadUsers()
 	{
 		console.log('----- loadUsers -----');
@@ -73,6 +101,10 @@ class Reports {
 		api.makeRequest("GET", `/companies/${company_id}/users`, {}, this.fillUsersWithResponse);
 	}
 
+	/**
+	 * 
+	 * @param {*} xhr_response 
+	 */
 	fillUsersWithResponse(xhr_response)
 	{
 		console.log('----- fillUsersWithResponse -----', xhr_response);
@@ -86,7 +118,7 @@ class Reports {
 			option.textContent = `${xhr_response[key].first_name} ${xhr_response[key].last_name}`;
 			selectUsers.appendChild(option);
 		}
-		
+			
 		Reports.prototype.loadTimeEntries(); // required for B-Reports, leave at END of callback
 	}
 
@@ -94,6 +126,23 @@ class Reports {
 	{
 		console.log('----- handleUserChange -----', event);
 		// INSERT YOUR CODE BELOW THIS LINE
+
+		// returns HTML Collection of td elements so convert into array
+		let userEntries = [...document.getElementsByClassName("filtered_in"), ...document.getElementsByClassName("filtered_out")]; // append all tr's that may have previously been hidden
+		userEntries.forEach(key => {
+			key.classList = []; // reset
+			let keyChildren = [...key.children]; // get all td's of the tr as array
+
+			// td at index 1 has project_id as its id
+			if(event.target.value === "") {
+				key.classList.add("filtered_in")
+			}
+			else if(keyChildren[2].id !== event.target.value) { // td's project_id not equal to select-option's project_id 
+				key.classList.add("filtered_out")
+			} else {
+				key.classList.add("filtered_in")
+			}
+		});
 	}
 
 	/////////////////////////////////////////////
@@ -102,6 +151,9 @@ class Reports {
 	//
 	/////////////////////////////////////////////
 
+	/**
+	 * 
+	 */
 	loadTimeEntries()
 	{
 		console.log('----- loadTimeEntries -----');
@@ -113,6 +165,10 @@ class Reports {
 		}
 	}
 
+	/**
+	 * 
+	 * @param {*} xhr_response 
+	 */
 	fillTimeEntriesWithResponse(xhr_response)
 	{
 		console.log('----- fillTimeEntriesWithResponse -----', xhr_response);
@@ -129,7 +185,7 @@ class Reports {
 			let dateA = new Date(a.start_time);
 			let dateB = new Date(b.start_time);
 			
-			return dateA - dateB;
+			return dateA - dateB; // <0 = more recent, 0 = started same time, >0 = more
 		});
 
 		Object.keys(entries).forEach(key => {
@@ -138,19 +194,32 @@ class Reports {
 
 			tableElems[0].textContent = `${entries[key].description}`; // contains entry description
 
-			tableElems[1].textContent = `${entries[key].entry_id}`; // contains project title
+			tableElems[1].textContent = `${Reports.projects[`${entries[key].project_id}`].title}`; // contains project title
+			tableElems[1].id = `${entries[key].project_id}`;
 
-			tableElems[2].textContent = `${entries[key].user_id}`; // contains ID of user who created entry
-			
+			tableElems[2].textContent = `${Reports.users[`${entries[key].user_id}`].first_name}`; // contains ID of user who created entry
+			tableElems[2].id = `${entries[key].user_id}`;
+
 			let start = new Date(entries[key].start_time);
 			let end = new Date(entries[key].end_time);
-			tableElems[3].textContent = `${convertSecondsToHoursMinutesSeconds(end.getTime() - start.getTime())}`; // contains how long timer ran in form
-			tableElems[4].textContent = `${end.getMonth()} ${end.getDate()}, ${end.getFullYear()} ${end.getHours()}:${end.getMinutes()}`; // contains date
+			
+			if(start.getHours() > end.getHours()) {
+				end.setHours((end.getHours() + 24), end.getMinutes(), end.getSeconds())
+			}
+			let endSeconds = (end.getHours() * 3600) + (end.getMinutes() * 60) + end.getSeconds();
+			let startSeconds = (start.getHours() * 3600) + (start.getMinutes() * 60) + start.getSeconds();
+			
+			tableElems[3].textContent = `${convertSecondsToHoursMinutesSeconds(endSeconds - startSeconds)}`; // contains how long timer ran in form
+			tableElems[4].textContent = `${Reports.prototype.dateString(entries[key].start_time)} ${start.getHours()}:${start.getMinutes()}`; // contains start date in abbreviated form
 			
 			tbody[0].append(row);
 		});
 	}
 
+	/**
+	 * 
+	 * @returns 
+	 */
 	static createTableElements() {
 		let taskCol = document.createElement("td"); // task column
 		let projCol = document.createElement("td"); // project column
@@ -159,7 +228,8 @@ class Reports {
 		let dateCol = document.createElement("td"); // date column
 		
 		let row = document.createElement("tr"); // separate row for each entry
-		row.appendChild(taskCol);
+		row.classList.add("filtered_in"); // class for filtering out content 
+		row.appendChild(taskCol); // append each entry to row
 		row.appendChild(projCol);
 		row.appendChild(userCol);
 		row.appendChild(timeCol);

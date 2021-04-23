@@ -1,0 +1,62 @@
+body{
+   font-size: 14px;
+font-family: Aerial;
+}
+
+
+#project_form{
+    margin: auto;
+    width: 300px;
+    margin-top: 100px;
+    background: #343434;
+    padding: 10px;
+}
+#project_form > * {
+    margin: 10px;
+    padding: 10px;
+    color: #343434;
+}
+#submit_button{
+    background: #CDCDCD;
+    border:  none;
+    color: #343434;
+    text-align: center;
+}
+#projects_table{
+    width: 100%;
+    margin-top: 30px;
+}
+
+th{
+    background:  #CDCDCD;
+}
+th,td{
+    border-bottom: 1px solid #CDCDCD;
+    padding: 5px;
+    text-align: center;
+}
+
+#new_project_button{
+font-size:28px;
+text-align: center;
+padding: 10px;
+background:  #009900;
+border: none;
+text-decoration: none;
+margin: 10px;
+}
+#new_project_button:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+.delete_link:hover, #submit_button:hover{
+    cursor: pointer;
+}
+
+.hide_form{
+   visibility: hidden;
+}
+
+label{
+    background: white;
+}
