@@ -1,10 +1,10 @@
 #content_container {
-    flex-direction: column;
+    flex-direction: column; /* everything stacks ontop of each other */
 }
 
 #reports_filter_form {
-    display: flex;
-    justify-content: space-evenly;
+    display: flex; /* enable flex */
+    justify-content: space-evenly; /* space out filter form evenly across width */
 }
 
 label, select {
@@ -15,8 +15,8 @@ label, select {
 }
 
 #results {
-    width: 100%;
-    text-align: center;
+    width: 100%; /* table spans width of page */
+    text-align: center; /* text centered in cells */
 }
 
 thead {
@@ -24,16 +24,16 @@ thead {
 }
 
 td {
-    border-left: 0px;
-    border-right: 0px;
-    border-top: 0px;
-    border-bottom: 1px;
-    border-style: solid;
+    border-left: 0px; /* no border */
+    border-right: 0px; /* no border */
+    border-top: 0px; /* no border */
+    border-bottom: 1px; /* 1px border on the bottom of each cell in table */
+    border-style: solid; /* solid border */
     border-color: #CDCDCD; /* Name Convention: light-neutral-colour (light grey) */
     padding: 5px;  /* Name Convention: small-spacing (5px) */ 
 }
 
 .filtered_out {
-    visibility: collapse;
+    visibility: collapse; /* hide filtered out time entries */
 }
 
